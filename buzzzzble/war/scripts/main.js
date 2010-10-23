@@ -380,6 +380,10 @@ $(document).ready(function() {
 				}
 			});
 		};
+		var refresh = function(){
+			$('#activitiesList').find('li').remove();
+			initialize();
+		};
 		/*
 		 * initialize the latest 20 activities
 		 */
@@ -390,10 +394,13 @@ $(document).ready(function() {
 		$('#activityUpdateBtn').click(function() {
 			Buzzzzble.DAO.makeItBuzzzzble($('#activityContent').val(), {
 				success : function(obj, code) {
-					$('#activitiesList').find('li').remove();
-					initialize();
+					refresh();
 				}
 			});
+		});
+		
+		$('#refreshBtn').click(function(){
+			refresh();
 		});
 	}
 });
