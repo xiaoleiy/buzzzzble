@@ -17,7 +17,13 @@ a:hover, a:active{text-decoration:underline;}
 .clear{clear:both;font-size:0;overflow:hidden;}
 #mainWrapper{width:800px;margin:0 auto;background:#fff}
 #actorAvatar{border:1px solid #000;width:40px;height:40px;}
-#activityContent{font:14px/150% Verdana }
+#activityContent{font:14px/150% Verdana;width:100%;padding:5px;padding-right:20px;
+}
+.textboxBorderStyle{border-style:solid;
+border-width:1px 0 0 1px;
+border-color:#ccc}
+.textboxContainer{border-width:1px;border-style:solid;border-color:#999 #C3C3C3 #C3C3C3 #9A9A9A}
+#activityUpdateBtn{border:1px solid #999;font-size:1.5em;margin:5px;}
 #activityContentLabel{}
 
 #activitiesList li.activityWrapper{padding:5px 5px 0 5px;border-bottom:1px dotted #444;}
@@ -57,5 +63,7 @@ a.readAllComment{text-decoration:underline;}
 
 .photoList{margin-top:5px;}
 .photoList li.photoItem{display:inline;padding:3px;}
+
+.borderRedius{-moz-border-radius:2px;-webkit-border-radius:2px;border-radius:2px;}
 
 
