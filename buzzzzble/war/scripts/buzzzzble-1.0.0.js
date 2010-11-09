@@ -71,6 +71,7 @@
 			var apiobj = {
 				buzzapi_type : 'GET',
 				buzzapi_alt : 'json',
+				buzzapi_max_results : 20,
 				buzzapi_uri : BUZZ_API.ACTIVITIES.ME.CONSUMPTION
 			};
 			DAO.request(apiobj, funcs);
