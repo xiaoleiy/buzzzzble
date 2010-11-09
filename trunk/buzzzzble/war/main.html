@@ -5,7 +5,8 @@
 		<meta name="google-site-verification" content="aAn4_27LT1s7EXisrTlCzuixmeulVbmdXnpX0U2VkYI" />
 		<title>Make it Buzzzzble</title>
 		<link type="text/css" rel="stylesheet" href="style/main.css"/>
-		<link type="text/css" rel="stylesheet" href="style/form.ui.css"/>
+		<!-- <link type="text/css" rel="stylesheet" href="style/form.ui.css"/> -->
+		<link type="text/css" rel="stylesheet" href="style/buzzzzble.ui.css"/>
 	</head>
 	<body>		
 		
@@ -13,12 +14,12 @@
 			<h1 id="activityContentLabel">Buzzzzble</h1>
 			<div>
 				<p><a href="/OauthAuthorizationServlet">Getting Start Buzzzzble</a></p>
-				<div class="textboxContainer">
-				<textarea rows="2" id="activityContent" class="textboxBorderStyle"></textarea>
+				<div class="convertToBlock">
+					<textarea id="activityContent"></textarea>
 				</div>
-				<p>
-				<button id="activityUpdateBtn" class="borderRedius">POST</button>
-				<a id="refreshBtn" href="#">refresh</a>
+				<p class="np">
+					<button id="activityUpdateBtn">Post the buzz</button>
+					<button id="refreshBtn" href="javascript:void(0);">Refresh</button>
 				</p>
 			</div>
 			<div id="activitiesListWrapper">
@@ -26,7 +27,9 @@
 			</div>
 		</div>
 		<script type="text/javascript" src="scripts/jquery/jquery-1.4.2.min.js"></script>
-		<script type="text/javascript" src="scripts/jquery/jquery.color.js"></script>
+		<script type="text/javascript" src="scripts/jquery/jquery.color.js"></script>		
+		<script type="text/javascript" src="scripts/buzzzzble.ui.js"></script>
+		
 		<script type="text/javascript" src="scripts/buzzzzble-1.0.0.js"></script>
 		<script type="text/javascript" src="scripts/main.js"></script>
 	</body>
