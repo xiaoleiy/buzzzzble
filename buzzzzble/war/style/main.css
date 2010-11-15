@@ -57,6 +57,10 @@ width:17px;height:18px;float:left;display:block;}
 .comment-btn-right{margin-left:20px;border:2px solid #288acf;padding:1px;
 -moz-border-radius:6px;-webkit-border-radius:6px;border-radius:6px;position:relative;top:5px;
 margin-right:30px;display:block;}
+.like-btn{margin-left:20px;border:2px solid #288acf;padding:1px;-moz-border-radius:6px;-webkit-border-radius:6px;border-radius:6px;position:relative;top:5px;
+margin-right:30px;display:block;}
+.unlike-btn{background-color:yellow;margin-left:20px;border:2px solid #288acf;padding:1px;-moz-border-radius:6px;-webkit-border-radius:6px;border-radius:6px;position:relative;top:5px;
+margin-right:30px;display:block;}
 
 .activityCommentShortCut{margin-left:50px;}
 .commentHidden{display:none;}
@@ -66,5 +70,5 @@ a.readAllComment{text-decoration:underline;}
 .photoList li.photoItem{display:inline;padding:3px;}
 
 .borderRedius{-moz-border-radius:2px;-webkit-border-radius:2px;border-radius:2px;}
-
+.likearea{padding:2px 0 2px 0;float:left;border:1px solid #e1e1e1}
 
