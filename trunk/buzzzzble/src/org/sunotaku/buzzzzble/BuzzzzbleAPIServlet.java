@@ -5,7 +5,10 @@ import static net.oauth.OAuth.OAUTH_SIGNATURE_METHOD;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -42,7 +45,8 @@ public class BuzzzzbleAPIServlet extends HttpServlet {
 					response, consumer);
 
 			accessor.consumer.setProperty(OAUTH_SIGNATURE_METHOD, HMAC_SHA1);
-
+			
+			System.out.println("[INFO] request URL: " + FilterUtility.GetBuzzURI(request));
 			OAuthMessage message = accessor.newRequestMessage( //
 					FilterUtility.GetHttpRequestType(request), //
 					FilterUtility.GetBuzzURI(request),//
@@ -54,6 +58,27 @@ public class BuzzzzbleAPIServlet extends HttpServlet {
 
 			//
 			// copy to browser
+			/**
+			if(FilterUtility.GetHttpRequestType(request).equals("DELETE")){
+				String encoding = result.getBodyEncoding();
+				byte[] bBody = new byte[1024];
+				StringBuffer strBody = new StringBuffer(); 
+				while(result.getBodyAsStream().read(bBody) != -1){
+					strBody.append(new String(bBody, encoding));
+					bBody = new byte[1024];
+				}
+				System.out.println("[INFO] BodyType: " + result.getBodyType() + "\tBody: \n" + strBody);
+				System.out.println("[INFO] Response Header: ");
+				Iterator<Entry<String, String>> iterator = result.getHeaders().iterator();
+				while(iterator.hasNext()){
+					Map.Entry<String, String> entry = null;
+					entry = iterator.next();
+					System.out.println(entry.getKey() + " : " + entry.getValue());
+				}
+				System.out.println("[INFO] Status Code: " + result.getHttpResponse().getStatusCode());
+				result.getHttpResponse().getStatusCode();
+			}
+			*/
 			CookieConsumer.copyResponse(result, response);
 		} catch (Exception e) {
 			CookieConsumer.handleException(e, request, response, consumer);

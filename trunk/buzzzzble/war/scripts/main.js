@@ -93,7 +93,7 @@ $(document).ready(function() {
 			$(contentWrapperSection).addClass('contentWrapper').append(
 					$('<a></a>').addClass('actorName')).append(source).append(
 					' -').append(activityDate).append(
-					$(content).addClass('activityContent'))
+					$(content).addClass('activityContent'));
 
 			// add br.clear
 			$(article).append('<div class="clear"></div>');
@@ -101,8 +101,13 @@ $(document).ready(function() {
 			// add comment status
 			var commentStatus = $(activityCommentShortCut).clone();
 			$(item).append(commentStatus);
-
 			$(item).append('<ul class="commentsList"></ul>');
+			
+			// add like button
+			var likeBtn = document.createElement('button');
+			$(likeBtn).attr('type','button').addClass('like-btn').attr('id','like-btn-id').append('LikeIt!');
+			$(item).append(likeBtn);
+			$(likeBtn).button();
 
 			return item;
 		})();
@@ -130,6 +135,35 @@ $(document).ready(function() {
 			return commentItem;
 		})();
 
+		function getLikers(userId, item, likerHref, likeBtn){
+			Buzzzzble.DAO.getLikers(likerHref, {
+				success : function(retObj, code){
+					var likerArea = $(item).find('.like-area');
+					$(likerArea).empty(); // initialize the div
+					var i = 0;
+					var length = retObj.data.totalResults;
+					if(length == 0){
+						return;
+					}
+					var entry = retObj.data.entry;
+					$(likerArea).append('<img src="style/shit.gif"></img> ' + entry.length + ' people liked this：');
+					for(i = 0; i < entry.length; i++){
+						var likerId = entry[i].id;
+						var likerName = entry[i].displayName;
+						var likerUrl = entry[i].profileUrl;
+						$(likerArea).append('<a id="' + likerId + '" href="' + likerUrl + '">' + likerName + '</a>' + (i != (entry.length - 1) ? ' <img src="style/starring.gif"></img> ' : ''));
+						if(userId == entry[i].id){
+							$(likeBtn).text('UnlikeIt!');
+							$(likeBtn).attr('id','unlike-btn-id');
+						}
+					}
+					$(item).append(likerArea);
+				},
+				error : function(){
+					alert('[ERROR] Failed to request likers from ' + likerHref);
+				}
+			});
+		}
 		// photo template
 		var photoListTemplate = (function() {
 			var list = document.createElement('ul');
@@ -275,7 +309,7 @@ $(document).ready(function() {
 		/*
 		 * 
 		 */
-		var appendActivity = function(activity) {
+		var appendActivity = function(userId, activity) {
 			var newItem = $(activityItemTemplate).clone();
 
 			// photolist
@@ -307,6 +341,43 @@ $(document).ready(function() {
 					// get textarea
 					textarea.focus();
 				});
+			
+			// add handler for "likeIt"
+			var likeBtn = $(newItem).find('.like-btn');
+			var likeArea = document.createElement('div');
+			$(likeArea).addClass('like-area');
+			$(newItem).append(likeArea);
+			var iLiked = false;
+			var likerHref = activity.links.liked[0].href;
+			var likerCnt = activity.links.liked[0].count;
+			if(likerCnt > 0){
+				getLikers(userId, newItem, likerHref, likeBtn);
+			}
+			$(likeBtn).click(function() {
+				if($(likeBtn).attr('id') == 'like-btn-id'){
+					Buzzzzble.DAO.likeIt(activity.id, {
+						success : function(returnObj, code){
+							if(code && code == 'success'){
+								//TODO Add animation to the button to indicate the activity being liked!
+								$(likeBtn).text('UnlikeIt!'); // Temporary solution for the animation
+								$(likeBtn).attr('id','unlike-btn-id');
+								getLikers(userId, newItem, likerHref, likeBtn);
+							}
+						}
+					});
+				}else if($(likeBtn).attr('id') == 'unlike-btn-id'){
+					Buzzzzble.DAO.unlikeIt(activity.id,{
+						success : function(returnObj, code){
+							if(code && code == 'success'){
+								//TODO Add animation to the button to indicate the activity no longer being liked!
+								$(likeBtn).text('LikeIt!'); // Temporary solution for the animation
+								$(likeBtn).attr('id','like-btn-id');
+								getLikers(userId, newItem, likerHref, likeBtn);
+							}
+						}
+					});
+				}
+			});
 
 			var authors = $(commentReplyAreaBack).find('a');
 			// OK BUTTON
@@ -370,7 +441,7 @@ $(document).ready(function() {
 					if (obj) {
 						var itemsLength = obj.data.items.length;
 						for ( var i = 0; i < itemsLength; i++) {
-							appendActivity(obj.data.items[i]);
+							appendActivity(obj.data.id.split(':')[5], obj.data.items[i]);
 						}
 					}
 				}
